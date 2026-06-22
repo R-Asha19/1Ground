@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from "react-helmet-async"
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
@@ -54,8 +55,65 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <Navbar />
+  <div>
+    <Helmet>
+      <title>1Ground | Buy, Rent & Sell Properties in India</title>
+
+      <meta
+        name="description"
+        content="Find verified apartments, villas, plots and commercial properties for sale and rent across India on 1Ground."
+      />
+
+      <meta
+        name="keywords"
+        content="real estate, property in india, buy property, rent property, villa, apartment, plot, commercial property, chennai properties, 1ground"
+      />
+
+      <meta
+        property="og:title"
+        content="1Ground | Buy, Rent & Sell Properties in India"
+      />
+
+      <meta
+        property="og:description"
+        content="Buy, Rent and Sell premium properties across India with 1Ground."
+      />
+
+      <meta property="og:type" content="website" />
+
+      <meta
+        property="og:url"
+        content="https://www.1ground.in/"
+      />
+
+      <meta
+        property="og:image"
+        content="https://www.1ground.in/logo.png"
+      />
+
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="1Ground | Buy, Rent & Sell Properties"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Discover thousands of verified properties across India with 1Ground."
+      />
+
+      <link
+        rel="canonical"
+        href="https://www.1ground.in/"
+      />
+    </Helmet>
+
+    <Navbar />
+      
 
       {/* ══════════════════════════════════════
           HERO — centered content
@@ -360,9 +418,13 @@ export default function Home() {
           div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
         }
       `}</style>
+
+      
     </div>
   )
 }
+
+
 
 function Counter({ target, label, run }) {
   const [count, setCount] = useState(0)

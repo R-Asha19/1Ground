@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import PropertyDetailModal from './PropertyDetailModal'
+
 
 export default function PropertyCard({ property }) {
   const { user, toggleLike, isLiked } = useAuth()
   const [liked,       setLiked]   = useState(() => isLiked(property._id))
   const [showDetail,  setShowDetail] = useState(false)
+
 
   const handleLike = (e) => {
     e.stopPropagation()
@@ -18,7 +21,13 @@ export default function PropertyCard({ property }) {
     'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'
 
   const listingType = property.listingType || 'buy'  // 'buy' | 'rent'
+  const navigate = useNavigate();
 
+  const slug = `${property.title}-${property.city}-${property._id}`
+  .toLowerCase()
+  .replace(/[^\w\s-]/g, '')
+  .replace(/\s+/g, '-');
+  
   return (
     <>
       <div className="card" style={{ overflow:'hidden', cursor:'pointer' }} onClick={() => setShowDetail(true)}>
@@ -77,8 +86,10 @@ export default function PropertyCard({ property }) {
 
           {/* Enquire button */}
           <button
-            onClick={e => { e.stopPropagation(); setShowDetail(true) }}
-            className="btn-primary"
+onClick={e => {
+  e.stopPropagation();
+  navigate(`/property/${slug}`);
+}}            className="btn-primary"
             style={{ width:'100%', justifyContent:'center', padding:'11px' }}
           >
             Enquire Property →

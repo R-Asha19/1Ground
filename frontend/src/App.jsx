@@ -11,6 +11,8 @@ import Login          from './pages/Login'
 import Profile        from './pages/Profile'
 import OwnerDashboard from './pages/OwnerDashboard'
 import AdminDashboard from './pages/AdminDashboard'
+import PropertyDetails from './pages/PropertyDetails'
+
 
 function Protected({ children, roles }) {
   const { user } = useAuth()
@@ -33,6 +35,10 @@ export default function App() {
       <Route path="/owner-dashboard" element={<Protected roles={['owner','admin']}><OwnerDashboard /></Protected>} />
       <Route path="/admin-dashboard" element={<Protected roles={['admin']}><AdminDashboard /></Protected>} />
       <Route path="*"               element={<Navigate to="/" replace />} />
+      <Route
+  path="/property/:slug"
+  element={<PropertyDetails />}
+/>
     </Routes>
   )
 }
