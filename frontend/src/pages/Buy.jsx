@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { Helmet } from "react-helmet-async";
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
@@ -111,6 +112,81 @@ export default function Buy() {
 
   return (
     <div>
+      <Helmet>
+      <title>
+        {filters.city
+          ? `Properties for Sale in ${filters.city} | 1Ground`
+          : "Buy Properties in India | 1Ground"}
+      </title>
+
+      <meta
+        name="description"
+        content={
+          filters.city
+            ? `Browse verified properties for sale in ${filters.city} on 1Ground.`
+            : "Browse thousands of verified apartments, villas, plots and commercial properties for sale across India on 1Ground."
+        }
+      />
+
+      <meta
+        name="keywords"
+        content="buy property, properties for sale, apartments for sale, villas for sale, plots for sale, real estate india, 1ground"
+      />
+
+      <meta
+        property="og:title"
+        content={
+          filters.city
+            ? `Properties for Sale in ${filters.city} | 1Ground`
+            : "Buy Properties in India | 1Ground"
+        }
+      />
+
+      <meta
+        property="og:description"
+        content="Find your dream property with thousands of verified listings on 1Ground."
+      />
+
+      <meta property="og:type" content="website" />
+
+      <meta
+        property="og:url"
+        content={`https://www.1ground.in/buy${
+          filters.city ? `?city=${filters.city}` : ""
+        }`}
+      />
+
+      <meta
+        property="og:image"
+        content="https://www.1ground.in/logo.png"
+      />
+
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content={
+          filters.city
+            ? `Properties for Sale in ${filters.city} | 1Ground`
+            : "Buy Properties in India | 1Ground"
+        }
+      />
+
+      <meta
+        name="twitter:description"
+        content="Browse verified properties for sale across India."
+      />
+
+      <link
+        rel="canonical"
+        href={`https://www.1ground.in/buy${
+          filters.city ? `?city=${filters.city}` : ""
+        }`}
+      />
+    </Helmet>
       <Navbar />
       <PageHero
         title="Buy" em="Properties"

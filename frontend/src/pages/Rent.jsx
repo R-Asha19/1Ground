@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { Helmet } from "react-helmet-async";
 import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
 import PropertyFilterSidebar from '../components/PropertyFilterSidebar'
@@ -85,6 +86,24 @@ export default function Rent() {
 
   return (
     <div>
+ <Helmet>
+  <title>Rent Properties in India | 1Ground</title>
+
+  <meta
+    name="description"
+    content="Find verified houses, apartments and commercial properties for rent across India on 1Ground."
+  />
+
+  <meta
+    name="keywords"
+    content="rent property, apartments for rent, houses for rent, flats for rent, 1ground"
+  />
+
+  <link
+    rel="canonical"
+    href="https://www.1ground.in/rent"
+  />
+</Helmet>
       <Navbar />
       <PageHero
         title="Rent" em="Properties"
