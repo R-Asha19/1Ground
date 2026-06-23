@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useAuth } from '../context/AuthContext'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 export default function Sell() {
+  useSEO(SEO.sell)
+
   const { user } = useAuth()
   const navigate = useNavigate()
 

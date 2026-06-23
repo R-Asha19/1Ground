@@ -2,8 +2,15 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import api from '../api/axios'
+import { useSEO } from '../hooks/useSEO'
+import { SEO, SCHEMA } from '../seo/seoConfig'
 
 export default function Contact() {
+  useSEO({
+    ...SEO.contact,
+    schema: SCHEMA.localBusiness,
+  })
+
   const [form, setForm]         = useState({ name:'', email:'', phone:'', subject:'', message:'' })
   const [loading, setLoading]   = useState(false)
   const [msg,     setMsg]       = useState({ text:'', type:'' })
@@ -26,24 +33,24 @@ export default function Contact() {
     {
       icon: '📍',
       title: 'Our Office',
-      text: '14th Floor, One BKC Tower,\nBandra Kurla Complex, Mumbai 400051',
-      link: 'https://maps.google.com/?q=Bandra+Kurla+Complex+Mumbai',
+      text: 'Chez IT Solutions Pvt Ltd, 61/87, Station Rd, Radha Nagar,\n Chromepet, Chennai, Tamil Nadu 600044',
+      link: 'https://www.google.com/maps/place/Chez+IT+Solutions+Pvt+Ltd/@12.950289,80.1427074,851m/data=!3m1!1e3!4m6!3m5!1s0x3a525fe6b14617b7:0x85c21eb34295f5cf!8m2!3d12.9506236!4d80.1447244!16s%2Fg%2F11x6plywmd?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D',
       linkLabel: 'View on Map',
     },
     {
       icon: '📞',
       title: 'Phone',
       lines: [
-        { display: '+91 98765 43210', href: 'tel:+919876543210' },
-        { display: '+91 98765 43211', href: 'tel:+919876543211' },
+        { display: '+91 7094640322', href: 'tel:+917094640322' },
+        
       ],
     },
     {
       icon: '✉️',
       title: 'Email',
       lines: [
-        { display: 'hello123@gmail.com',   href: 'mailto:hello123@gmail.com' },
-        { display: 'support@gmail.com', href: 'mailto:support@gmail.com' },
+        { display: 'enquiry1ground@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=enquiry1ground@gmail.com', external: true },
+       
       ],
     },
     {
@@ -104,7 +111,10 @@ export default function Contact() {
                       {/* Lines with clickable links */}
                       {c.lines ? (
                         c.lines.map((l, j) => (
-                          <a key={j} href={l.href} style={{
+                          <a key={j} href={l.href}
+                          target={l.external ? '_blank' : '_self'}
+                          rel={l.external ? 'noopener noreferrer' : undefined}
+                          style={{
                             display:'block', fontSize:'.86rem', color:'var(--white-60)',
                             lineHeight:1.7, transition:'color .2s', textDecoration:'none',
                           }}
@@ -138,8 +148,8 @@ export default function Contact() {
               </div>
 
               {/* Quick WhatsApp support button */}
-              <a
-                href="https://wa.me/919876543210?text=Hi%201Ground%2C%20I%20need%20help%20with%20a%20property%20enquiry."
+              
+                <a href="https://wa.me/917094640322?text=Hi%201Ground%2C%20I%20need%20help%20with%20a%20property%20enquiry."
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

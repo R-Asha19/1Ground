@@ -1,7 +1,14 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { useSEO } from '../hooks/useSEO'
+import { SEO, SCHEMA } from '../seo/seoConfig'
 
 export default function About() {
+  useSEO({
+    ...SEO.about,
+    schema: SCHEMA.organization,
+  })
+
   return (
     <div>
       <Navbar />
@@ -84,31 +91,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="section" style={{ background: 'var(--black)' }}>
-        <div className="container">
-          <div className="sec-header">
-            <p className="eyebrow">Leadership</p>
-            <h2 className="sec-title">Meet the <em>Team</em></h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
-            {[
-              { name: 'Chez IT Solutions',   role: 'CEO & Founder',      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80' },
-              { name: 'Asha R',  role: 'Web Developer',  img: 'https://images.unsplash.com/photo-1494790108755-2616b612b1e5?w=200&q=80' },
-              { name: 'Sarumathi E',   role: 'Web Developer',                 img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80' },
-              { name: 'Janani',  role: 'Web Developer',   img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80' },
-            ].map((m, i) => (
-              <div key={i} className="card" style={{ padding: '28px 20px', textAlign: 'center' }}>
-                <div style={{ width: 72, height: 72, borderRadius: '50%', overflow: 'hidden', margin: '0 auto 14px', border: '2px solid var(--gold-dim)' }}>
-                  <img src={m.img} alt={m.name} />
-                </div>
-                <h4 style={{ fontFamily: 'var(--ff-d)', fontSize: '1.05rem', color: 'var(--white)', marginBottom: 4 }}>{m.name}</h4>
-                <p style={{ fontSize: '.75rem', color: 'var(--gold)', letterSpacing: '.06em' }}>{m.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       <Footer />
     </div>

@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 // ── Google Client ID ──────────────────────────────────────────
 // Replace this with your actual Google Client ID from
@@ -23,6 +25,8 @@ export default function Login() {
 
   const [loginForm, setLoginForm] = useState({ email:'', password:'' })
   const [regForm,   setRegForm]   = useState({ name:'', email:'', phone:'', password:'' })
+
+  useSEO(SEO.login) // noIndex: true — won't appear in Google
 
   // Redirect if already logged in
   useEffect(() => {

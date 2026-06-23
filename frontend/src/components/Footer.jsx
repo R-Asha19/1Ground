@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import logo from '../assets/logo.png'
 
 // ── SVG Social Icons ──────────────────────────────
 const SOCIALS = [
@@ -51,13 +52,47 @@ export default function Footer() {
 
           {/* ── Brand ── */}
           <div>
-            <div style={{ fontFamily: 'var(--ff-d)', fontSize: '1.6rem', color: 'var(--white)', marginBottom: 14 }}>
-              <span style={{ color: 'var(--gold)' }}>1</span>Ground
-            </div>
+            <Link
+              to="/"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                textDecoration: 'none',
+                marginBottom: '14px',
+                width: 'fit-content',
+              }}
+            >
+              <img
+                src={logo}
+                alt="1Ground Logo"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid rgba(212,175,55,0.3)',
+                  boxShadow: '0 0 12px rgba(212,175,55,0.15)',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--ff-d)',
+                  fontSize: '1.6rem',
+                  fontWeight: 600,
+                  color: 'var(--white)',
+                  letterSpacing: '-.01em',
+                }}
+              >
+                <span style={{ color: 'var(--gold)' }}>1</span>Ground
+              </span>
+            </Link>
+
             <p style={{ fontSize: '.82rem', color: 'var(--white-60)', lineHeight: 1.75, maxWidth: 250, marginBottom: 22 }}>
               India's trusted platform to buy, rent and sell premium properties across 200+ cities.
             </p>
-            {/* Social icons with real SVG logos */}
+
+            {/* Social icons */}
             <div style={{ display: 'flex', gap: 10 }}>
               {SOCIALS.map(s => (
                 <a
@@ -98,12 +133,12 @@ export default function Footer() {
             <h4 style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--white)', marginBottom: 18 }}>Quick Links</h4>
             <ul style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
-                ['Home',           '/'],
-                ['Buy Property',   '/buy'],
-                ['Rent Property',  '/rent'],
-                ['Sell Property',  '/sell'],
-                ['About Us',       '/about'],
-                ['Contact',        '/contact'],
+                ['Home',          '/'],
+                ['Buy Property',  '/buy'],
+                ['Rent Property', '/rent'],
+                ['Sell Property', '/sell'],
+                ['About Us',      '/about'],
+                ['Contact',       '/contact'],
               ].map(([l, t]) => (
                 <li key={l}>
                   <Link
@@ -121,7 +156,7 @@ export default function Footer() {
           <div>
             <h4 style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--white)', marginBottom: 18 }}>Services</h4>
             <ul style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {['Property Valuation','Home Loans','Legal Assistance','Interior Design','NRI Services'].map(s => (
+              {['Property Valuation', 'Home Loans', 'Legal Assistance', 'Interior Design', 'NRI Services'].map(s => (
                 <li key={s}>
                   <a
                     href="#"
@@ -138,15 +173,21 @@ export default function Footer() {
           <div>
             <h4 style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--white)', marginBottom: 18 }}>Contact Us</h4>
             {[
-              { icon: '📍', text: '14th Floor, One BKC Tower,\nBandra Kurla Complex, Mumbai 400051' },
-              { icon: '📞', text: '+91 98765 43210', href: 'tel:+919876543210' },
-              { icon: '✉️', text: 'hello@1ground.in', href: 'mailto:hello@1ground.in' },
+              {
+                icon: '📍',
+                text: 'Chez IT Solutions Pvt Ltd, 61/87,\n Station Rd, Radha Nagar, Chromepet,\n Chennai, Tamil Nadu 600044',
+                href: 'https://www.google.com/maps/place/Chez+IT+Solutions+Pvt+Ltd/@12.950289,80.1427074,851m/data=!3m1!1e3!4m6!3m5!1s0x3a525fe6b14617b7:0x85c21eb34295f5cf!8m2!3d12.9506236!4d80.1447244!16s%2Fg%2F11x6plywmd?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D',
+              },
+              { icon: '📞', text: '+91 70946 40322', href: 'tel:+917094640322' },
+              { icon: '✉️', text: 'enquiry1ground@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=enquiry1ground@gmail.com' },
             ].map(c => (
               <p key={c.icon} style={{ display: 'flex', gap: 10, fontSize: '.82rem', color: 'var(--white-60)', marginBottom: 13, lineHeight: 1.65, alignItems: 'flex-start' }}>
                 <span style={{ flexShrink: 0 }}>{c.icon}</span>
                 {c.href ? (
                   <a
                     href={c.href}
+                    target={c.href.startsWith('tel:') ? '_self' : '_blank'}
+                    rel={c.href.startsWith('tel:') ? undefined : 'noopener noreferrer'}
                     style={{ color: 'var(--white-60)', textDecoration: 'none', whiteSpace: 'pre-line', transition: 'color .2s' }}
                     onMouseEnter={e => e.target.style.color = 'var(--gold-lt)'}
                     onMouseLeave={e => e.target.style.color = 'var(--white-60)'}
@@ -163,19 +204,24 @@ export default function Footer() {
         {/* Bottom bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 0', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: '.75rem', color: 'var(--white-30)' }}>
-            © 2025 1Ground. All rights reserved. Crafted with ♥ in India.
+            © 2026 1Ground. All rights reserved. Crafted with ♥ in India.
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(l => (
-              <a
-                key={l} href="#"
-                style={{ fontSize: '.72rem', color: 'var(--white-30)', transition: 'color .2s' }}
+            {[
+              ['Privacy Policy',   '/privacy-policy'],
+              ['Terms of Service', '/terms-of-service'],
+              ['Cookie Policy',    '/cookie-policy'],
+            ].map(([l, t]) => (
+              <Link
+                key={l} to={t}
+                style={{ fontSize: '.72rem', color: 'var(--white-30)', transition: 'color .2s', textDecoration: 'none' }}
                 onMouseEnter={e => e.target.style.color = 'var(--gold-lt)'}
                 onMouseLeave={e => e.target.style.color = 'var(--white-30)'}
-              >{l}</a>
+              >{l}</Link>
             ))}
           </div>
         </div>
+
       </div>
     </footer>
   )

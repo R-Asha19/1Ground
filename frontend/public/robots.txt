@@ -1,0 +1,15 @@
+# robots.txt for 1Ground (https://1ground.in)
+
+User-agent: *
+Allow: /
+
+# Block private/dashboard pages
+Disallow: /admin/
+Disallow: /owner/
+Disallow: /profile
+Disallow: /login
+
+# Block API routes if accidentally exposed
+Disallow: /api/
+
+Sitemap: https://1ground.in/sitemap.xml

@@ -4,11 +4,15 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
 import { useAuth } from '../context/AuthContext'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 export default function Profile() {
   const { user, logout, getLiked, getContacted } = useAuth()
   const navigate = useNavigate()
   const [tab, setTab] = useState('info')
+
+  useSEO(SEO.profile) // noIndex: true — won't appear in Google
 
   const liked     = getLiked()
   const contacted = getContacted()

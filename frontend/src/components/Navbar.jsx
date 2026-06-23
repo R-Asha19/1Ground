@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import logo from '../assets/logo.png';
 
 const NAV_LINKS = [
   { label: 'Home',    to: '/' },
@@ -52,12 +53,39 @@ export default function Navbar() {
         <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:20 }}>
 
           {/* Logo */}
-          <Link to="/" style={{
-            fontFamily: 'var(--ff-d)', fontSize: '1.65rem', fontWeight: 600,
-            color: 'var(--white)', flexShrink: 0, letterSpacing: '-.01em',
-          }}>
-            <span style={{ color:'var(--gold)' }}>1</span>Ground
-          </Link>
+         <Link
+  to="/"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    color: 'var(--white)',
+    textDecoration: 'none',
+    flexShrink: 0,
+  }}
+>
+  <img
+    src={logo}
+    alt="1Ground Logo"
+    style={{
+      width: '42px',
+      height: '42px',
+      borderRadius: '50%',
+      objectFit: 'cover',
+    }}
+  />
+
+  <span
+    style={{
+      fontFamily: 'var(--ff-d)',
+      fontSize: '1.65rem',
+      fontWeight: 600,
+      letterSpacing: '-.01em',
+    }}
+  >
+    <span style={{ color: 'var(--gold)' }}>1</span>Ground
+  </span>
+</Link>
 
           {/* Desktop Links */}
           <ul style={{ display:'flex', alignItems:'center', gap:6, listStyle:'none' }} className="nav-desktop">

@@ -6,6 +6,8 @@ import PropertyCard from '../components/PropertyCard'
 import PropertyFilterSidebar from '../components/PropertyFilterSidebar'
 import api from '../api/axios'
 import { PageHero } from './Buy'   // reuse from Buy.jsx
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 const EMPTY_FILTERS = {
   city: '', state: '', type: '', budget: '',
@@ -20,6 +22,8 @@ function filtersFromParams(searchParams) {
 }
 
 export default function Rent() {
+  useSEO(SEO.rent)
+
   const [searchParams] = useSearchParams()
   const [props,   setProps]   = useState([])
   const [loading, setLoading] = useState(true)

@@ -3,10 +3,14 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
 import Toast from '../components/Toast'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 const AMENITIES = ['WiFi','Parking','Gym','Swimming Pool','Security','Lift','Power Backup','Garden']
 
 export default function AdminDashboard() {
+  useSEO(SEO.adminDashboard)
+
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -176,7 +180,6 @@ export default function AdminDashboard() {
           <button key={l.id} onClick={() => switchPanel(l.id)} className={`s-link${panel === l.id ? ' active' : ''}`}>
             <span style={{ marginRight: 4 }}>{l.icon}</span>
             {l.label}
-            {/* Unread badge on Inbox */}
             {l.id === 'inbox' && unreadCount > 0 && (
               <span style={{ marginLeft:'auto', background:'#e05555', color:'#fff', borderRadius:20, padding:'1px 9px', fontSize:'.62rem', fontWeight:700 }}>
                 {unreadCount}
@@ -188,7 +191,6 @@ export default function AdminDashboard() {
         <Link to="/" className="s-link">🌐 View Site</Link>
 
         <div className="sidebar-footer">
-          
           <button onClick={() => { logout(); navigate('/login') }} className="s-link" style={{ color:'#ff8a8a' }}>🚪 Logout</button>
         </div>
       </aside>
@@ -377,7 +379,6 @@ export default function AdminDashboard() {
         {/* ══ INBOX ══ */}
         {panel === 'inbox' && (
           <>
-            {/* Header */}
             <div style={{ display:'flex', alignItems:'center', gap:16, marginBottom:28, flexWrap:'wrap' }}>
               <h1 style={{ fontFamily:'var(--ff-d)', fontSize:'1.9rem', fontWeight:400, color:'var(--white)', margin:0 }}>
                 Contact <em style={{ fontStyle:'italic', color:'var(--gold-lt)' }}>Inbox</em>
@@ -390,8 +391,6 @@ export default function AdminDashboard() {
             </div>
 
             {loading ? <div className="spinner" /> : (
-
-              /* ── Two-column layout: list | detail ── */
               <div style={{ display:'grid', gridTemplateColumns:'380px 1fr', gap:20, alignItems:'start', minHeight:500 }}>
 
                 {/* ── LEFT: Message List ── */}
@@ -427,10 +426,8 @@ export default function AdminDashboard() {
                             transition:'background .15s',
                           }}
                         >
-                          {/* Row 1: name + date */}
                           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:4, gap:8 }}>
                             <div style={{ display:'flex', alignItems:'center', gap:7 }}>
-                              {/* Unread dot */}
                               {!m.isRead && (
                                 <div style={{ width:7, height:7, borderRadius:'50%', background:'var(--gold)', flexShrink:0 }} />
                               )}
@@ -440,9 +437,7 @@ export default function AdminDashboard() {
                               {new Date(m.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short' })}
                             </span>
                           </div>
-                          {/* Row 2: subject */}
                           <p style={{ fontSize:'.76rem', color:'var(--gold)', fontWeight:600, marginBottom:3 }}>{m.subject}</p>
-                          {/* Row 3: preview */}
                           <p style={{ fontSize:'.72rem', color:'var(--white-30)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                             {m.message}
                           </p>
@@ -455,7 +450,6 @@ export default function AdminDashboard() {
                 {/* ── RIGHT: Message Detail ── */}
                 {selectedMsg ? (
                   <div style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:14, overflow:'hidden' }}>
-                    {/* Detail Header */}
                     <div style={{ padding:'18px 24px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
                       <h3 style={{ fontFamily:'var(--ff-d)', fontSize:'1.2rem', color:'var(--white)', fontWeight:400, flex:1, minWidth:0, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                         {selectedMsg.subject}
@@ -467,7 +461,6 @@ export default function AdminDashboard() {
                     </div>
 
                     <div style={{ padding:'24px' }}>
-                      {/* Sender info grid */}
                       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, background:'rgba(255,255,255,.04)', borderRadius:12, padding:'18px 20px', marginBottom:22 }}>
                         <div>
                           <p style={{ fontSize:'.6rem', fontWeight:700, letterSpacing:'.14em', textTransform:'uppercase', color:'var(--gold)', marginBottom:5 }}>From</p>
@@ -497,13 +490,11 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      {/* Message body */}
                       <p style={{ fontSize:'.6rem', fontWeight:700, letterSpacing:'.14em', textTransform:'uppercase', color:'var(--gold)', marginBottom:10 }}>Message</p>
                       <div style={{ background:'rgba(255,255,255,.03)', border:'1px solid var(--border)', borderRadius:12, padding:'18px 20px', marginBottom:24, minHeight:100 }}>
                         <p style={{ fontSize:'.9rem', color:'var(--white-60)', lineHeight:1.8, whiteSpace:'pre-wrap' }}>{selectedMsg.message}</p>
                       </div>
 
-                      {/* Action buttons */}
                       <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
                         <a
                           href={`mailto:${selectedMsg.email}?subject=Re: ${encodeURIComponent(selectedMsg.subject)}`}
@@ -549,7 +540,6 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 ) : (
-                  /* Placeholder when no message is selected */
                   <div style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:14, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 30px', textAlign:'center', color:'var(--white-30)' }}>
                     <div style={{ fontSize:'3rem', marginBottom:14 }}>📬</div>
                     <p style={{ fontSize:'.9rem', marginBottom:6, color:'var(--white-60)' }}>Select a message</p>

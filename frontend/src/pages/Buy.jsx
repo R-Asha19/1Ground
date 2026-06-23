@@ -5,6 +5,8 @@ import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
 import PropertyFilterSidebar from '../components/PropertyFilterSidebar'
 import api from '../api/axios'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 // ── Shared PageHero ──────────────────────────────
 export function PageHero({ title, em, sub, img }) {
@@ -45,6 +47,8 @@ function filtersFromParams(searchParams) {
 
 // ── Buy Page ─────────────────────────────────────
 export default function Buy() {
+  useSEO(SEO.buy)
+
   const [searchParams] = useSearchParams()
   const [props,   setProps]   = useState([])
   const [loading, setLoading] = useState(true)

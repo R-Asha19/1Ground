@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
 import Toast from '../components/Toast'
 import { ALL_STATES, getCitiesForState } from '../data/indiaStatesCities'
+import { useSEO } from '../hooks/useSEO'
+import { SEO } from '../seo/seoConfig'
 
 const AMENITIES = ['WiFi','Parking','Gym','Swimming Pool','Security','Lift','Power Backup','Garden']
 const EMPTY = {
@@ -13,6 +15,7 @@ const EMPTY = {
 }
 
 export default function OwnerDashboard() {
+   useSEO(SEO.ownerDashboard)
   const { user, logout }  = useAuth()
   const navigate          = useNavigate()
   const [props,   setProps]   = useState([])

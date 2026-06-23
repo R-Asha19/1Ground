@@ -4,8 +4,15 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PropertyCard from '../components/PropertyCard'
 import api from '../api/axios'
+import { useSEO } from '../hooks/useSEO'
+import { SEO, SCHEMA } from '../seo/seoConfig'
 
 export default function Home() {
+  useSEO({
+    ...SEO.home,
+    schema: SCHEMA.organization,
+  })
+
   const navigate = useNavigate()
   const [buyProps,  setBuyProps]  = useState([])
   const [rentProps, setRentProps] = useState([])
