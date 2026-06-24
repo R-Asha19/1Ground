@@ -1,5 +1,5 @@
 // backend/controllers/contactController.js
-const ContactMessage = require('../models/ContactMessage')
+const ContactMessage = require('../models/contactMessage.js')
 
 // ── POST /api/contact ─────────────────────────────
 // Anyone can submit a contact form — saves to DB
