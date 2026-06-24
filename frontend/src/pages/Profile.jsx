@@ -12,7 +12,7 @@ export default function Profile() {
   const navigate = useNavigate()
   const [tab, setTab] = useState('info')
 
-  useSEO(SEO.profile) // noIndex: true — won't appear in Google
+  useSEO(SEO.profile)
 
   const liked     = getLiked()
   const contacted = getContacted()
@@ -36,34 +36,30 @@ export default function Profile() {
         borderBottom: '1px solid var(--border)',
       }}>
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-            {/* Avatar */}
-            <div style={{
-              width: 80, height: 80, borderRadius: '50%',
-              background: 'var(--gold-pale)', border: '2px solid var(--gold-dim)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2rem', flexShrink: 0,
-            }}>👤</div>
-            <div>
-              <h1 style={{ fontFamily: 'var(--ff-d)', fontSize: '2rem', fontWeight: 400, color: 'var(--white)' }}>
+
+          {/* Avatar + Info row */}
+          <div className="profile-hero-row">
+            <div className="profile-avatar">👤</div>
+            <div className="profile-hero-info">
+              <h1 style={{ fontFamily: 'var(--ff-d)', fontSize: '1.8rem', fontWeight: 400, color: 'var(--white)', margin: 0 }}>
                 {user?.name}
               </h1>
-              <p style={{ fontSize: '.82rem', color: 'var(--white-60)', marginTop: 4 }}>
+              <p style={{ fontSize: '.82rem', color: 'var(--white-60)', marginTop: 4, wordBreak: 'break-all' }}>
                 {user?.email} · <span style={{ color: 'var(--gold)', textTransform: 'capitalize' }}>{user?.role}</span>
               </p>
             </div>
-            <button onClick={handleLogout} style={{ marginLeft: 'auto', color: '#ff8a8a', fontSize: '.82rem', padding: '9px 18px', borderRadius: 8, border: '1px solid rgba(224,85,85,.25)', background: 'rgba(224,85,85,.1)', cursor: 'pointer' }}>
+            <button onClick={handleLogout} className="profile-logout-btn">
               🚪 Logout
             </button>
           </div>
 
           {/* Quick stats */}
-          <div style={{ display: 'flex', gap: 16, marginTop: 28, flexWrap: 'wrap' }}>
+          <div className="profile-stats-row">
             {[
               { n: liked.length,     l: 'Saved Properties' },
               { n: contacted.length, l: 'Properties Contacted' },
             ].map((s, i) => (
-              <div key={i} style={{ background: 'var(--black-card)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px 24px', minWidth: 140 }}>
+              <div key={i} className="profile-stat-card">
                 <div style={{ fontFamily: 'var(--ff-d)', fontSize: '1.8rem', color: 'var(--gold-lt)', fontWeight: 300 }}>{s.n}</div>
                 <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--white-30)', marginTop: 4 }}>{s.l}</div>
               </div>
@@ -74,16 +70,13 @@ export default function Profile() {
 
       <section className="section" style={{ background: 'var(--black)', paddingTop: 48 }}>
         <div className="container">
+
           {/* Tab bar */}
-          <div style={{ display: 'flex', gap: 6, background: 'var(--black-card)', border: '1px solid var(--border)', borderRadius: 12, padding: 5, width: 'fit-content', marginBottom: 40 }}>
+          <div className="profile-tab-bar">
             {tabs.map(t => (
-              <button key={t.id} onClick={() => setTab(t.id)} style={{
-                padding: '10px 22px', borderRadius: 9, border: 'none', cursor: 'pointer',
-                fontFamily: 'var(--ff-b)', fontSize: '.82rem', fontWeight: 600,
-                background: tab === t.id ? 'var(--gold)' : 'transparent',
-                color: tab === t.id ? 'var(--black)' : 'var(--white-60)',
-                transition: 'all .25s',
-              }}>{t.label}</button>
+              <button key={t.id} onClick={() => setTab(t.id)} className={`profile-tab-btn ${tab === t.id ? 'active' : ''}`}>
+                {t.label}
+              </button>
             ))}
           </div>
 
@@ -95,15 +88,15 @@ export default function Profile() {
                   Account <em style={{ fontStyle: 'italic', color: 'var(--gold-lt)' }}>Details</em>
                 </h3>
                 {[
-                  { label: 'Full Name', value: user?.name },
-                  { label: 'Email',     value: user?.email },
-                  { label: 'Role',      value: user?.role },
-                  { label: 'Phone',     value: user?.phone || 'Not provided' },
+                  { label: 'Full Name',    value: user?.name },
+                  { label: 'Email',        value: user?.email },
+                  { label: 'Role',         value: user?.role },
+                  { label: 'Phone',        value: user?.phone || 'Not provided' },
                   { label: 'Member Since', value: user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' }) : 'N/A' },
                 ].map(f => (
-                  <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--border)' }}>
-                    <span style={{ fontSize: '.75rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--white-30)' }}>{f.label}</span>
-                    <span style={{ fontSize: '.88rem', color: 'var(--white)', fontWeight: 500, textTransform: 'capitalize' }}>{f.value}</span>
+                  <div key={f.label} className="profile-detail-row">
+                    <span className="profile-detail-label">{f.label}</span>
+                    <span className="profile-detail-value">{f.value}</span>
                   </div>
                 ))}
                 {user?.role === 'owner' && (
@@ -158,6 +151,149 @@ export default function Profile() {
       </section>
 
       <Footer />
+
+      <style>{`
+        /* ── Hero row ── */
+        .profile-hero-row {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        .profile-avatar {
+          width: 72px; height: 72px;
+          border-radius: 50%;
+          background: var(--gold-pale);
+          border: 2px solid var(--gold-dim);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 2rem;
+          flex-shrink: 0;
+        }
+        .profile-hero-info {
+          flex: 1;
+          min-width: 0;
+        }
+        .profile-logout-btn {
+          color: #ff8a8a;
+          font-size: .82rem;
+          padding: 9px 18px;
+          border-radius: 8px;
+          border: 1px solid rgba(224,85,85,.25);
+          background: rgba(224,85,85,.1);
+          cursor: pointer;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        /* ── Stats row ── */
+        .profile-stats-row {
+          display: flex;
+          gap: 16px;
+          margin-top: 28px;
+          flex-wrap: nowrap;
+        }
+        .profile-stat-card {
+          background: var(--black-card);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 24px;
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* ── Tab bar ── */
+        .profile-tab-bar {
+          display: flex;
+          gap: 6px;
+          background: var(--black-card);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 5px;
+          width: 100%;
+          margin-bottom: 40px;
+          box-sizing: border-box;
+        }
+        .profile-tab-btn {
+          flex: 1;
+          padding: 10px 8px;
+          border-radius: 9px;
+          border: none;
+          cursor: pointer;
+          font-family: var(--ff-b);
+          font-size: .82rem;
+          font-weight: 600;
+          background: transparent;
+          color: var(--white-60);
+          transition: all .25s;
+          white-space: nowrap;
+          text-align: center;
+        }
+        .profile-tab-btn.active {
+          background: var(--gold);
+          color: var(--black);
+        }
+
+        /* ── Detail rows ── */
+        .profile-detail-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 14px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .profile-detail-label {
+          font-size: .75rem;
+          font-weight: 700;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          color: var(--white-30);
+          flex-shrink: 0;
+        }
+        .profile-detail-value {
+          font-size: .88rem;
+          color: var(--white);
+          font-weight: 500;
+          text-transform: capitalize;
+          text-align: right;
+          word-break: break-all;
+        }
+
+        /* ── Mobile tweaks ── */
+        @media (max-width: 480px) {
+          .profile-hero-row {
+            gap: 14px;
+          }
+          .profile-avatar {
+            width: 58px; height: 58px;
+            font-size: 1.5rem;
+          }
+          .profile-hero-info h1 {
+            font-size: 1.4rem !important;
+          }
+          .profile-logout-btn {
+            font-size: .75rem;
+            padding: 7px 12px;
+          }
+          .profile-stats-row {
+            gap: 10px;
+          }
+          .profile-stat-card {
+            padding: 14px 16px;
+          }
+          .profile-tab-btn {
+            font-size: .72rem;
+            padding: 9px 4px;
+          }
+          .profile-detail-row {
+            flex-direction: column;
+            gap: 4px;
+          }
+          .profile-detail-value {
+            text-align: left;
+          }
+        }
+      `}</style>
     </div>
   )
 }

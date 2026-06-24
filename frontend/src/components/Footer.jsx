@@ -48,7 +48,8 @@ export default function Footer() {
   return (
     <footer style={{ background: 'var(--black-soft)', borderTop: '1px solid var(--border)', padding: '64px 0 0' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1.3fr', gap: 48, paddingBottom: 52, borderBottom: '1px solid var(--border)' }}>
+        <div className="footer-grid"
+        style={{ paddingBottom: 52, borderBottom: '1px solid var(--border)' }}>
 
           {/* ── Brand ── */}
           <div>
@@ -223,6 +224,27 @@ export default function Footer() {
         </div>
 
       </div>
+      <style>{`
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    gap: 48px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+  }
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 32px !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+      gap: 28px !important;
+    }
+  }
+`}</style>
     </footer>
   )
 }

@@ -12,7 +12,6 @@ export default function Sell() {
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  // If already logged in as owner/admin, go to dashboard
   useEffect(() => {
     if (user?.role === 'owner') navigate('/owner-dashboard')
     if (user?.role === 'admin') navigate('/admin-dashboard')
@@ -23,15 +22,15 @@ export default function Sell() {
       <Navbar />
 
       {/* Hero */}
-      <section style={{
-        minHeight: '100vh', position: 'relative',
+      <section className="sell-hero" style={{
+        position: 'relative',
         display: 'flex', alignItems: 'center',
         backgroundImage: 'url(https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=80)',
         backgroundSize: 'cover', backgroundPosition: 'center',
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.82)' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1, paddingTop: 100 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+        <div className="container sell-hero-inner" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="sell-grid">
 
             {/* Left - text */}
             <div>
@@ -62,7 +61,7 @@ export default function Sell() {
                 ))}
               </div>
 
-              <div style={{ display: 'flex', gap: 14 }}>
+              <div className="sell-cta-row">
                 <button
                   onClick={() => navigate('/login?role=owner')}
                   className="btn-primary"
@@ -113,6 +112,55 @@ export default function Sell() {
       </section>
 
       <Footer />
+
+      <style>{`
+        .sell-hero {
+          min-height: 100vh;
+        }
+        .sell-hero-inner {
+          padding-top: 100px;
+          padding-bottom: 60px;
+        }
+        .sell-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 60px;
+          align-items: center;
+        }
+
+        @media (max-width: 860px) {
+          .sell-hero {
+            min-height: auto;
+          }
+          .sell-hero-inner {
+            padding-top: 110px;
+            padding-bottom: 50px;
+          }
+          .sell-grid {
+            grid-template-columns: 1fr;
+            gap: 36px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .sell-cta-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+          .sell-cta-row button {
+            width: 100%;
+            padding: 14px 0 !important;
+          }
+        }
+
+        @media (min-width: 481px) {
+          .sell-cta-row {
+            display: flex;
+            gap: 14px;
+          }
+        }
+      `}</style>
     </div>
   )
 }

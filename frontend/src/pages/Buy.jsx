@@ -46,6 +46,11 @@ function filtersFromParams(searchParams) {
   return { ...EMPTY_FILTERS, city, type, budget, bedrooms }
 }
 
+// Count active filters for the mobile toggle badge
+function countActiveFilters(f) {
+  return Object.values(f).filter(Boolean).length
+}
+
 // ── Buy Page ─────────────────────────────────────
 export default function Buy() {
   useSEO(SEO.buy)
@@ -54,6 +59,7 @@ export default function Buy() {
   const [props,   setProps]   = useState([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState(() => filtersFromParams(searchParams))
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }))
@@ -109,6 +115,8 @@ export default function Buy() {
     const timer = setTimeout(() => load(filters), 350)
     return () => clearTimeout(timer)
   }, [filters])
+
+  const activeCount = countActiveFilters(filters)
 
   return (
     <div>
@@ -195,13 +203,33 @@ export default function Buy() {
       />
       <section className="section" style={{ background: 'var(--black)' }}>
         <div className="container">
-          <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start' }}>
-            <PropertyFilterSidebar
-              filters={filters}
-              onChange={handleFilterChange}
-              onReset={handleFilterReset}
-              resultCount={loading ? undefined : props.length}
-            />
+
+          {/* Mobile filter toggle bar */}
+          <button
+            className="filter-toggle-btn"
+            onClick={() => setFiltersOpen(o => !o)}
+            aria-expanded={filtersOpen}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>🎛️ Filters</span>
+              {activeCount > 0 && (
+                <span className="filter-badge">{activeCount}</span>
+              )}
+            </span>
+            <span style={{ fontSize: '.8rem', color: 'var(--white-30)' }}>
+              {filtersOpen ? 'Hide ▲' : 'Show ▼'}
+            </span>
+          </button>
+
+          <div className="buy-layout">
+            <div className={`sidebar-wrap ${filtersOpen ? 'sidebar-open' : ''}`}>
+              <PropertyFilterSidebar
+                filters={filters}
+                onChange={handleFilterChange}
+                onReset={handleFilterReset}
+                resultCount={loading ? undefined : props.length}
+              />
+            </div>
 
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '.78rem', color: 'var(--white-30)', marginBottom: 24 }}>
@@ -224,6 +252,64 @@ export default function Buy() {
         </div>
       </section>
       <Footer />
+
+      <style>{`
+        .buy-layout {
+          display: flex;
+          gap: 28px;
+          align-items: flex-start;
+        }
+
+        .filter-toggle-btn {
+          display: none;
+        }
+
+        .sidebar-wrap {
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 900px) {
+          .buy-layout {
+            flex-direction: column;
+            gap: 0;
+          }
+
+          .filter-toggle-btn {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 16px;
+            margin-bottom: 16px;
+            background: var(--black-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+          }
+
+          .filter-badge {
+            background: var(--gold);
+            color: var(--black);
+            font-size: .68rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+          }
+
+          .sidebar-wrap {
+            width: 100%;
+            display: none;
+            margin-bottom: 20px;
+          }
+
+          .sidebar-wrap.sidebar-open {
+            display: block;
+          }
+        }
+      `}</style>
     </div>
   )
 }

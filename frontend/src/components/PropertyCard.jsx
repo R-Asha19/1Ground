@@ -86,10 +86,10 @@ export default function PropertyCard({ property }) {
 
           {/* Enquire button */}
           <button
-onClick={e => {
-  e.stopPropagation();
-  navigate(`/property/${slug}`);
-}}            className="btn-primary"
+          onClick={e => {
+          e.stopPropagation();
+             setShowDetail(true);   // opens the popup, same as clicking the card
+          }}          className="btn-primary"
             style={{ width:'100%', justifyContent:'center', padding:'11px' }}
           >
             Enquire Property →

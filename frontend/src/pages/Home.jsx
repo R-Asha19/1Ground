@@ -62,68 +62,26 @@ export default function Home() {
   }
 
   return (
-  <div>
-    <Helmet>
-      <title>1Ground | Buy, Rent & Sell Properties in India</title>
+    <div>
+      <Helmet>
+        <title>1Ground | Buy, Rent & Sell Properties in India</title>
+        <meta name="description" content="Find verified apartments, villas, plots and commercial properties for sale and rent across India on 1Ground." />
+        <meta name="keywords" content="real estate, property in india, buy property, rent property, villa, apartment, plot, commercial property, chennai properties, 1ground" />
+        <meta property="og:title" content="1Ground | Buy, Rent & Sell Properties in India" />
+        <meta property="og:description" content="Buy, Rent and Sell premium properties across India with 1Ground." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.1ground.in/" />
+        <meta property="og:image" content="https://www.1ground.in/logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="1Ground | Buy, Rent & Sell Properties" />
+        <meta name="twitter:description" content="Discover thousands of verified properties across India with 1Ground." />
+        <link rel="canonical" href="https://www.1ground.in/" />
+      </Helmet>
 
-      <meta
-        name="description"
-        content="Find verified apartments, villas, plots and commercial properties for sale and rent across India on 1Ground."
-      />
-
-      <meta
-        name="keywords"
-        content="real estate, property in india, buy property, rent property, villa, apartment, plot, commercial property, chennai properties, 1ground"
-      />
-
-      <meta
-        property="og:title"
-        content="1Ground | Buy, Rent & Sell Properties in India"
-      />
-
-      <meta
-        property="og:description"
-        content="Buy, Rent and Sell premium properties across India with 1Ground."
-      />
-
-      <meta property="og:type" content="website" />
-
-      <meta
-        property="og:url"
-        content="https://www.1ground.in/"
-      />
-
-      <meta
-        property="og:image"
-        content="https://www.1ground.in/logo.png"
-      />
-
-      <meta
-        name="twitter:card"
-        content="summary_large_image"
-      />
-
-      <meta
-        name="twitter:title"
-        content="1Ground | Buy, Rent & Sell Properties"
-      />
-
-      <meta
-        name="twitter:description"
-        content="Discover thousands of verified properties across India with 1Ground."
-      />
-
-      <link
-        rel="canonical"
-        href="https://www.1ground.in/"
-      />
-    </Helmet>
-
-    <Navbar />
-      
+      <Navbar />
 
       {/* ══════════════════════════════════════
-          HERO — centered content
+          HERO
       ══════════════════════════════════════ */}
       <section style={{
         minHeight: '100vh', position: 'relative', overflow: 'hidden',
@@ -164,7 +122,7 @@ export default function Home() {
           {/* Heading */}
           <h1 style={{
             fontFamily: 'var(--ff-d)',
-            fontSize: 'clamp(3rem,7vw,6.5rem)',
+            fontSize: 'clamp(2.2rem,7vw,6.5rem)',
             fontWeight: 300, lineHeight: 1.05, color: 'var(--white)',
             marginBottom: 20, letterSpacing: '-.01em',
           }}>
@@ -174,19 +132,15 @@ export default function Home() {
 
           {/* Sub */}
           <p style={{
-            fontSize: 'clamp(.95rem,2vw,1.15rem)', color: 'rgba(255,255,255,.65)',
-            fontWeight: 300, marginBottom: 50,
-            maxWidth: 520, margin: '0 auto 50px',
+            fontSize: 'clamp(.9rem,2vw,1.15rem)', color: 'rgba(255,255,255,.65)',
+            fontWeight: 300, maxWidth: 520, margin: '0 auto 50px',
             lineHeight: 1.75,
           }}>
             Buy, Rent, and Sell premium properties across India. 10,000+ verified listings waiting for you.
           </p>
 
           {/* ── 3 Glassmorphism Action Cards ── */}
-          <div style={{
-            display: 'flex', gap: 18, justifyContent: 'center',
-            flexWrap: 'wrap', marginBottom: 44,
-          }}>
+          <div className="hero-cards">
             {[
               { icon: '🏠', title: 'Buy Property',  desc: 'Browse thousands of verified properties.',          to: '/buy'  },
               { icon: '💼', title: 'Rent Property', desc: 'Discover homes and apartments for rent.',           to: '/rent' },
@@ -195,22 +149,11 @@ export default function Home() {
               <div
                 key={i}
                 onClick={() => navigate(card.to)}
-                style={{
-                  width: 220,
-                  background: 'rgba(255,255,255,.07)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255,255,255,.12)',
-                  borderRadius: 14,
-                  padding: '26px 22px',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  transition: 'transform .3s ease, border-color .3s, box-shadow .3s',
-                }}
+                className="hero-card"
                 onMouseEnter={e => {
-                  e.currentTarget.style.transform     = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor   = 'rgba(201,168,76,.5)'
-                  e.currentTarget.style.boxShadow     = '0 20px 50px rgba(0,0,0,.5), 0 0 20px rgba(201,168,76,.1)'
+                  e.currentTarget.style.transform   = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(201,168,76,.5)'
+                  e.currentTarget.style.boxShadow   = '0 20px 50px rgba(0,0,0,.5), 0 0 20px rgba(201,168,76,.1)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform   = 'translateY(0)'
@@ -218,7 +161,7 @@ export default function Home() {
                   e.currentTarget.style.boxShadow   = 'none'
                 }}
               >
-                <div style={{ fontSize: '1.8rem', marginBottom: 12, display: 'inline-block', transition: 'transform .3s' }}>{card.icon}</div>
+                <div style={{ fontSize: '1.8rem', marginBottom: 12 }}>{card.icon}</div>
                 <h3 style={{ fontFamily: 'var(--ff-d)', fontSize: '1.15rem', fontWeight: 600, color: 'var(--white)', marginBottom: 7 }}>{card.title}</h3>
                 <p style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.55, marginBottom: 14 }}>{card.desc}</p>
                 <span style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
@@ -229,15 +172,8 @@ export default function Home() {
           </div>
 
           {/* ── Search Bar ── */}
-          <div style={{
-            display: 'flex', alignItems: 'center', flexWrap: 'wrap',
-            background: 'rgba(255,255,255,.07)', backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,.12)', borderRadius: 12,
-            overflow: 'hidden', maxWidth: 820, margin: '0 auto',
-          }}>
-            {/* City */}
-            <div style={{ flex: 1, padding: '16px 20px', minWidth: 150 }}>
+          <div className="search-bar">
+            <div className="search-field">
               <label style={{ display: 'block', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 4 }}>Location</label>
               <select value={city} onChange={e => setCity(e.target.value)}
                 style={{ background: 'none', border: 'none', outline: 'none', color: 'var(--white)', fontSize: '.88rem', width: '100%', cursor: 'pointer', fontFamily: 'var(--ff-b)' }}>
@@ -247,9 +183,8 @@ export default function Home() {
                 ))}
               </select>
             </div>
-            <div style={{ width: 1, height: 40, background: 'rgba(255,255,255,.1)', flexShrink: 0 }}/>
-            {/* Type */}
-            <div style={{ flex: 1, padding: '16px 20px', minWidth: 150 }}>
+            <div className="search-divider"/>
+            <div className="search-field">
               <label style={{ display: 'block', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 4 }}>Property Type</label>
               <select value={type} onChange={e => setType(e.target.value)}
                 style={{ background: 'none', border: 'none', outline: 'none', color: 'var(--white)', fontSize: '.88rem', width: '100%', cursor: 'pointer', fontFamily: 'var(--ff-b)' }}>
@@ -259,9 +194,8 @@ export default function Home() {
                 ))}
               </select>
             </div>
-            <div style={{ width: 1, height: 40, background: 'rgba(255,255,255,.1)', flexShrink: 0 }}/>
-            {/* Budget */}
-            <div style={{ flex: 1, padding: '16px 20px', minWidth: 150 }}>
+            <div className="search-divider"/>
+            <div className="search-field">
               <label style={{ display: 'block', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 4 }}>Budget</label>
               <select value={budget} onChange={e => setBudget(e.target.value)}
                 style={{ background: 'none', border: 'none', outline: 'none', color: 'var(--white)', fontSize: '.88rem', width: '100%', cursor: 'pointer', fontFamily: 'var(--ff-b)' }}>
@@ -272,20 +206,15 @@ export default function Home() {
                 <option value="50000000-999999999" style={{ background: '#111' }}>Above ₹5 Crore</option>
               </select>
             </div>
-            {/* Search Button */}
-            <button onClick={handleSearch} style={{
-              background: 'var(--gold)', color: 'var(--black)', border: 'none',
-              padding: '0 32px', height: 76, fontSize: '.88rem', fontWeight: 700,
-              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8,
-              transition: 'background .2s', flexShrink: 0, fontFamily: 'var(--ff-b)',
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = 'var(--gold-lt)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'var(--gold)'}
+            <button onClick={handleSearch} className="search-btn"
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--gold-lt)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--gold)'}
             >
               🔍 Search
             </button>
           </div>
-        </div>
+
+        </div>{/* ← END centered content div */}
 
         {/* Scroll indicator */}
         <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', zIndex: 1 }}>
@@ -346,7 +275,7 @@ export default function Home() {
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.84)' }}/>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20, textAlign: 'center' }}>
+          <div className="stats-grid">
             {[
               { target: 10000, label: 'Properties Listed' },
               { target: 5000,  label: 'Happy Customers' },
@@ -367,7 +296,7 @@ export default function Home() {
             <h2 className="sec-title">Built on <em>Trust & Technology</em></h2>
             <p className="sec-sub">Everything you need for a stress-free property journey</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
+          <div className="why-grid">
             {[
               { icon: '✔', title: 'Verified Properties', desc: 'Every listing goes through a 12-point verification before it appears on 1Ground.' },
               { icon: '🤝', title: 'Trusted Agents',     desc: 'Background-verified agents with years of local expertise ready to assist you.' },
@@ -418,20 +347,104 @@ export default function Home() {
           51% { transform:scaleY(1); transform-origin:bottom; }
           100%{ transform:scaleY(0); transform-origin:bottom; }
         }
-        @media(max-width:900px) {
-          div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr 1fr !important; }
+
+        /* ── Hero cards ── */
+        .hero-cards {
+          display: flex;
+          gap: 18px;
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-bottom: 44px;
         }
-        @media(max-width:540px) {
-          div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
+        .hero-card {
+          width: 220px;
+          background: rgba(255,255,255,.07);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,.12);
+          border-radius: 14px;
+          padding: 26px 22px;
+          text-align: left;
+          cursor: pointer;
+          transition: transform .3s ease, border-color .3s, box-shadow .3s;
+        }
+
+        /* ── Search bar ── */
+        .search-bar {
+          display: flex;
+          align-items: center;
+          background: rgba(255,255,255,.07);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,.12);
+          border-radius: 12px;
+          overflow: hidden;
+          max-width: 820px;
+          margin: 0 auto;
+        }
+        .search-field {
+          flex: 1;
+          padding: 16px 20px;
+          min-width: 140px;
+        }
+        .search-divider {
+          width: 1px;
+          height: 40px;
+          background: rgba(255,255,255,.1);
+          flex-shrink: 0;
+        }
+        .search-btn {
+          background: var(--gold);
+          color: var(--black);
+          border: none;
+          padding: 0 32px;
+          height: 76px;
+          font-size: .88rem;
+          font-weight: 700;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          transition: background .2s;
+          flex-shrink: 0;
+          font-family: var(--ff-b);
+          justify-content: center;
+        }
+
+        /* ── Stats grid ── */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          text-align: center;
+        }
+
+        /* ── Why Choose Us grid ── */
+        .why-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+          .hero-cards     { flex-direction: column; align-items: center; }
+          .hero-card      { width: 100%; max-width: 360px; }
+          .search-bar     { flex-direction: column; }
+          .search-field   { width: 100%; box-sizing: border-box; border-bottom: 1px solid rgba(255,255,255,.1); }
+          .search-divider { display: none; }
+          .search-btn     { width: 100%; height: 52px; border-radius: 0; }
+          .stats-grid     { grid-template-columns: repeat(2, 1fr); }
+          .why-grid       { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+          .why-grid { grid-template-columns: 1fr; }
         }
       `}</style>
-
-      
     </div>
   )
 }
-
-
 
 function Counter({ target, label, run }) {
   const [count, setCount] = useState(0)

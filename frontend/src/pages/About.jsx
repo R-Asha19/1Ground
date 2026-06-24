@@ -14,7 +14,7 @@ export default function About() {
       <Navbar />
 
       {/* Hero */}
-      <section style={{
+      <section className="about-hero" style={{
         height: 360, position: 'relative', display: 'flex', alignItems: 'center',
         backgroundImage: 'url(https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80)',
         backgroundSize: 'cover', backgroundPosition: 'center',
@@ -34,7 +34,7 @@ export default function About() {
       {/* Mission */}
       <section className="section" style={{ background: 'var(--black)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <div className="mission-grid">
             <div>
               <p className="eyebrow">Our Mission</p>
               <h2 className="sec-title">Making Real Estate <em>Simple for Everyone</em></h2>
@@ -48,7 +48,7 @@ export default function About() {
                 From a 1 BHK studio in Bangalore to a luxury penthouse in Mumbai — every property deserves the right audience, and every buyer deserves a home they can trust.
               </p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="stats-grid">
               {[
                 { n: '10,000+', l: 'Properties Listed' },
                 { n: '5,000+',  l: 'Happy Customers' },
@@ -72,7 +72,7 @@ export default function About() {
             <p className="eyebrow">Our Values</p>
             <h2 className="sec-title">What We <em>Stand For</em></h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }}>
+          <div className="values-grid">
             {[
               { icon: '🔍', title: 'Transparency',  desc: 'No hidden charges, no fake listings. Every detail verified before it goes live.' },
               { icon: '🤝', title: 'Trust',         desc: 'Every owner, agent, and listing on 1Ground is background verified.' },
@@ -91,9 +91,63 @@ export default function About() {
         </div>
       </section>
 
-      
-
       <Footer />
+
+      <style>{`
+        .mission-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 64px;
+          align-items: center;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+
+        .values-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 22px;
+        }
+
+        @media (max-width: 900px) {
+          .mission-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+
+          .values-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .about-hero {
+            height: 300px !important;
+          }
+
+          .mission-grid {
+            gap: 32px;
+          }
+
+          .stats-grid {
+            gap: 12px;
+          }
+
+          .stat-card {
+            padding: 20px 12px !important;
+          }
+
+          .values-grid {
+            grid-template-columns: 1fr;
+            gap: 14px;
+          }
+        }
+      `}</style>
     </div>
   )
 }

@@ -29,15 +29,13 @@ export default function Rent() {
   const [props,   setProps]   = useState([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState(() => filtersFromParams(searchParams))
+  const [showFilters, setShowFilters] = useState(false) // mobile filter panel toggle
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }))
   }
   const handleFilterReset = () => setFilters(EMPTY_FILTERS)
 
-  // Build the API query string from the current filters object.
-  // Note: the Rent API only accepts a single maxPrice (no minPrice),
-  // so from the sidebar's "min-max" budget range we only send the max.
   const buildQuery = (f) => {
     const p = new URLSearchParams({ listingType: 'rent', status: 'available' })
 
@@ -78,7 +76,6 @@ export default function Rent() {
     }
   }
 
-  // Auto-apply: debounce so rapid filter changes don't fire a request per click.
   useEffect(() => {
     const timer = setTimeout(() => load(filters), 350)
     return () => clearTimeout(timer)
@@ -86,41 +83,48 @@ export default function Rent() {
 
   return (
     <div>
- <Helmet>
-  <title>Rent Properties in India | 1Ground</title>
+      <Helmet>
+        <title>Rent Properties in India | 1Ground</title>
+        <meta
+          name="description"
+          content="Find verified houses, apartments and commercial properties for rent across India on 1Ground."
+        />
+        <meta
+          name="keywords"
+          content="rent property, apartments for rent, houses for rent, flats for rent, 1ground"
+        />
+        <link rel="canonical" href="https://www.1ground.in/rent" />
+      </Helmet>
 
-  <meta
-    name="description"
-    content="Find verified houses, apartments and commercial properties for rent across India on 1Ground."
-  />
-
-  <meta
-    name="keywords"
-    content="rent property, apartments for rent, houses for rent, flats for rent, 1ground"
-  />
-
-  <link
-    rel="canonical"
-    href="https://www.1ground.in/rent"
-  />
-</Helmet>
       <Navbar />
       <PageHero
         title="Rent" em="Properties"
         sub="Discover comfortable homes and apartments available for rent"
         img="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600&q=80"
       />
+
       <section className="section" style={{ background: 'var(--black)' }}>
         <div className="container">
-          <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start' }}>
-            <PropertyFilterSidebar
-              filters={filters}
-              onChange={handleFilterChange}
-              onReset={handleFilterReset}
-              resultCount={loading ? undefined : props.length}
-            />
+          <div className="rent-layout">
 
-            <div style={{ flex: 1, minWidth: 0 }}>
+            {/* Mobile-only filter toggle */}
+            <button
+              className="rent-filter-toggle"
+              onClick={() => setShowFilters(s => !s)}
+            >
+              {showFilters ? '✕ Close Filters' : '☰ Filters'}
+            </button>
+
+            <div className={`rent-sidebar-wrap ${showFilters ? 'is-open' : ''}`}>
+              <PropertyFilterSidebar
+                filters={filters}
+                onChange={handleFilterChange}
+                onReset={handleFilterReset}
+                resultCount={loading ? undefined : props.length}
+              />
+            </div>
+
+            <div className="rent-content">
               <p style={{ fontSize: '.78rem', color: 'var(--white-30)', marginBottom: 24 }}>
                 {loading ? 'Searching...' : `${props.length} rental properties found`}
               </p>
@@ -137,10 +141,65 @@ export default function Rent() {
                 </div>
               )}
             </div>
+
           </div>
         </div>
       </section>
       <Footer />
+
+      <style>{`
+        .rent-layout {
+          display: flex;
+          gap: 28px;
+          align-items: flex-start;
+        }
+        .rent-content {
+          flex: 1;
+          min-width: 0;
+          width: 100%;
+        }
+        .rent-sidebar-wrap {
+          flex-shrink: 0;
+        }
+        .rent-filter-toggle {
+          display: none;
+        }
+
+        @media (max-width: 860px) {
+          .rent-layout {
+            flex-direction: column;
+            gap: 14px;
+          }
+          .rent-filter-toggle {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--black);
+            border: 1px solid var(--white-30);
+            color: var(--white-60);
+            border-radius: 8px;
+            font-size: .85rem;
+            text-align: left;
+            cursor: pointer;
+          }
+          .rent-sidebar-wrap {
+            display: none;
+            width: 100%;
+          }
+          .rent-sidebar-wrap.is-open {
+            display: block;
+          }
+          .rent-content {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .prop-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

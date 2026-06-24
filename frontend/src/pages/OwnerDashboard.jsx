@@ -28,9 +28,15 @@ export default function OwnerDashboard() {
   const [toast,   setToast]   = useState('')
   const [delId,   setDelId]   = useState(null)
   const [preview, setPreview] = useState([])
-  const [filter,  setFilter]  = useState('all') // all | rent | buy | available | rented
+  const [filter,  setFilter]  = useState('all')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEffect(() => { load() }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileNavOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileNavOpen])
 
   const load = async () => {
     setLoading(true)
@@ -62,9 +68,6 @@ export default function OwnerDashboard() {
     setFormMsg({ text:'', type:'' }); setModal(true)
   }
 
-  // When State changes, clear City if it doesn't belong to the new state
-  // (e.g. editing a property and switching states) so a stale/mismatched
-  // city can't silently get saved.
   const handleStateChange = (newState) => {
     setForm(p => {
       const validCities = newState ? getCitiesForState(newState) : []
@@ -133,18 +136,30 @@ export default function OwnerDashboard() {
   }
 
   return (
-    <div style={{ display:'flex', minHeight:'100vh', background:'var(--black)' }}>
-      {/* Sidebar */}
-      <aside className="sidebar">
+    <div className="dash-shell">
+
+      {/* Mobile top bar with hamburger */}
+      <div className="dash-mobile-bar">
         <div className="sidebar-logo"><span>1</span>Ground</div>
-        <Link to="/"           className="s-link">🌐 View Site</Link>
-        <Link to="/owner-dashboard" className="s-link active">🏠 My Properties</Link>
-        <Link to="/profile"    className="s-link">👤 My Profile</Link>
+        <button className="dash-burger" onClick={() => setMobileNavOpen(o => !o)} aria-label="Menu" aria-expanded={mobileNavOpen}>
+          {mobileNavOpen ? '✕' : '☰'}
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <aside className={`sidebar ${mobileNavOpen ? 'is-open' : ''}`}>
+        <div className="sidebar-logo sidebar-logo-desktop"><span>1</span>Ground</div>
+        <Link to="/" className="s-link" onClick={() => setMobileNavOpen(false)}>🌐 View Site</Link>
+        <Link to="/owner-dashboard" className="s-link active" onClick={() => setMobileNavOpen(false)}>🏠 My Properties</Link>
+        <Link to="/profile" className="s-link" onClick={() => setMobileNavOpen(false)}>👤 My Profile</Link>
         <div className="sidebar-footer">
           <div style={{ fontSize:'.75rem', color:'var(--white-30)', padding:'8px 14px' }}>🔑 {user?.name}</div>
           <button onClick={() => { logout(); navigate('/') }} className="s-link" style={{ color:'#ff8a8a' }}>🚪 Logout</button>
         </div>
       </aside>
+
+      {/* Mobile backdrop when sidebar open */}
+      {mobileNavOpen && <div className="dash-backdrop" onClick={() => setMobileNavOpen(false)} />}
 
       {/* Main */}
       <main className="dash-main">
@@ -156,7 +171,7 @@ export default function OwnerDashboard() {
         </div>
 
         {/* Stats */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:14, marginBottom:28 }}>
+        <div className="stats-grid">
           {[
             { n:stats.total,  l:'Total',      icon:'🏠' },
             { n:stats.rent,   l:'For Rent',   icon:'🔑' },
@@ -254,12 +269,12 @@ export default function OwnerDashboard() {
             </h2>
 
             <form onSubmit={handleSubmit}>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:13 }}>
+              <div className="form-grid">
 
                 {/* ── Listing Type (Sell or Rent) ── */}
                 <div style={{ gridColumn:'1/-1' }}>
                   <label className="f-label">I want to *</label>
-                  <div style={{ display:'flex', gap:10, marginTop:4 }}>
+                  <div className="listing-type-row">
                     {[
                       { v:'rent', label:'🏠 Rent Out',  desc:'Monthly rental income' },
                       { v:'buy',  label:'💰 Sell',      desc:'One-time sale' },
@@ -313,7 +328,7 @@ export default function OwnerDashboard() {
                     {ALL_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
-                {/* City — depends on selected State */}
+                {/* City */}
                 <div>
                   <label className="f-label">City *</label>
                   <select
@@ -364,7 +379,7 @@ export default function OwnerDashboard() {
                   <input className="f-input" required placeholder="919876543210" value={form.whatsappNumber} onChange={e => setForm(p => ({ ...p, whatsappNumber:e.target.value }))}/>
                 </div>
                 {/* Checkboxes */}
-                <div style={{ gridColumn:'1/-1', display:'flex', gap:24 }}>
+                <div style={{ gridColumn:'1/-1', display:'flex', gap:24, flexWrap:'wrap' }}>
                   {[['furnished','🛋 Furnished'],['negotiable','💬 Price Negotiable']].map(([key,label]) => (
                     <label key={key} style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:'.84rem', color:'var(--white-60)' }}>
                       <input type="checkbox" checked={form[key]} onChange={e => setForm(p => ({ ...p, [key]:e.target.checked }))} style={{ accentColor:'var(--gold)', width:15, height:15 }}/>
@@ -414,7 +429,7 @@ export default function OwnerDashboard() {
       {/* Delete confirm */}
       {delId && (
         <div className="modal-overlay">
-          <div style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:16, padding:'32px 28px', maxWidth:340, textAlign:'center' }}>
+          <div style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:16, padding:'32px 28px', maxWidth:340, width:'90%', textAlign:'center' }}>
             <div style={{ fontSize:'2.5rem', marginBottom:12 }}>🗑</div>
             <h3 style={{ color:'var(--white)', marginBottom:8 }}>Delete Property?</h3>
             <p style={{ color:'var(--white-60)', fontSize:'.82rem', marginBottom:24 }}>This will permanently remove the listing and cannot be undone.</p>
@@ -427,6 +442,137 @@ export default function OwnerDashboard() {
       )}
 
       {toast && <Toast message={toast} onClose={() => setToast('')}/>}
+
+      <style>{`
+        .dash-shell {
+          display: flex;
+          min-height: 100vh;
+          background: var(--black);
+        }
+        .dash-mobile-bar { display: none; }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+          margin-bottom: 28px;
+        }
+        .form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 13px;
+        }
+        .listing-type-row {
+          display: flex;
+          gap: 10px;
+          margin-top: 4px;
+        }
+
+        /* ── Hide desktop logo on mobile (top bar shows it instead) ── */
+        @media (max-width: 860px) {
+          .dash-mobile-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--black-card, #111);
+            border-bottom: 1px solid var(--border, #222);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 110;
+            height: 64px;
+            box-sizing: border-box;
+          }
+          .dash-burger {
+            background: none;
+            border: 1px solid var(--border, #333);
+            color: var(--white, #fff);
+            font-size: 1.1rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+          }
+
+          /* Hide the logo inside the sidebar on mobile — top bar already shows it */
+          .dash-shell .sidebar .sidebar-logo-desktop {
+            display: none !important;
+          }
+
+          /* ── Sidebar drawer ── */
+          .dash-shell .sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            margin: 0 !important;
+            height: 100vh !important;
+            width: 240px !important;
+            max-width: 80vw;
+            z-index: 120;
+            /* Solid background so links are visible over page content */
+            background: var(--black-card, #111) !important;
+            border-right: 1px solid var(--border, #222) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            isolation: isolate;
+            pointer-events: auto;
+            /* Start off-screen, slide in when .is-open */
+            transform: translateX(-100%);
+            transition: transform .25s ease;
+            overflow-y: auto;
+            /* Push content below the 64px top bar */
+            padding-top: 64px;
+            box-sizing: border-box;
+          }
+          .dash-shell .sidebar.is-open {
+            transform: translateX(0) !important;
+          }
+
+          /* Make sure every link/button inside is clickable */
+          .dash-shell .sidebar .s-link,
+          .dash-shell .sidebar button {
+            position: relative;
+            z-index: 1;
+            pointer-events: auto;
+          }
+
+          /* Semi-transparent backdrop behind the drawer */
+          .dash-backdrop {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,.6);
+            z-index: 115;
+          }
+
+          .dash-main {
+            width: 100%;
+            padding-top: 64px;
+          }
+
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .form-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+          .listing-type-row {
+            flex-direction: column;
+          }
+        }
+      `}</style>
     </div>
   )
 }

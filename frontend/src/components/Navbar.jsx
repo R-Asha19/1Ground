@@ -28,6 +28,12 @@ export default function Navbar() {
   // Close menu on route change
   useEffect(() => setOpen(false), [location])
 
+  // Lock body scroll while mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
   const handleLogout = () => { logout(); navigate('/') }
 
   const getDashLink = () => {
@@ -45,47 +51,47 @@ export default function Navbar() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
         padding: scrolled ? '10px 0' : '18px 0',
-        background: scrolled ? 'rgba(8,8,8,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(24px)' : 'none',
+        background: scrolled ? 'rgba(8,8,8,0.92)' : 'rgba(8,8,8,0.35)',
+        backdropFilter: 'blur(24px)',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : 'none',
         transition: 'all .35s ease',
       }}>
         <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:20 }}>
 
           {/* Logo */}
-         <Link
-  to="/"
-  style={{
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    color: 'var(--white)',
-    textDecoration: 'none',
-    flexShrink: 0,
-  }}
->
-  <img
-    src={logo}
-    alt="1Ground Logo"
-    style={{
-      width: '42px',
-      height: '42px',
-      borderRadius: '50%',
-      objectFit: 'cover',
-    }}
-  />
+          <Link
+            to="/"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              color: 'var(--white)',
+              textDecoration: 'none',
+              flexShrink: 0,
+            }}
+          >
+            <img
+              src={logo}
+              alt="1Ground Logo"
+              style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }}
+            />
 
-  <span
-    style={{
-      fontFamily: 'var(--ff-d)',
-      fontSize: '1.65rem',
-      fontWeight: 600,
-      letterSpacing: '-.01em',
-    }}
-  >
-    <span style={{ color: 'var(--gold)' }}>1</span>Ground
-  </span>
-</Link>
+            <span
+              style={{
+                fontFamily: 'var(--ff-d)',
+                fontSize: '1.65rem',
+                fontWeight: 600,
+                letterSpacing: '-.01em',
+              }}
+            >
+              <span style={{ color: 'var(--gold)' }}>1</span>Ground
+            </span>
+          </Link>
 
           {/* Desktop Links */}
           <ul style={{ display:'flex', alignItems:'center', gap:6, listStyle:'none' }} className="nav-desktop">
@@ -106,43 +112,59 @@ export default function Navbar() {
 
           {/* Right side */}
           <div style={{ display:'flex', alignItems:'center', gap:10, flexShrink:0 }}>
-            {user ? (
-              <>
-                <Link to={getDashLink()} style={{
-                  fontSize: '.78rem', fontWeight: 600, padding: '9px 18px',
-                  borderRadius: 7, border: '1px solid var(--gold-dim)',
-                  color: 'var(--gold-lt)', transition: 'all .2s', display: 'flex',
-                  alignItems: 'center', gap: 6,
-                }}>
-                  {user.role === 'admin'  ? '🛡️ Admin'
-                  : user.role === 'owner' ? '🔑 Dashboard'
-                  : '👤 ' + user.name.split(' ')[0]}
+            {/* Desktop-only auth controls */}
+            <div className="nav-desktop-auth" style={{ display:'flex', alignItems:'center', gap:10 }}>
+              {user ? (
+                <>
+                  <Link to={getDashLink()} style={{
+                    fontSize: '.78rem', fontWeight: 600, padding: '9px 18px',
+                    borderRadius: 7, border: '1px solid var(--gold-dim)',
+                    color: 'var(--gold-lt)', transition: 'all .2s', display: 'flex',
+                    alignItems: 'center', gap: 6,
+                  }}>
+                    {user.role === 'admin'  ? '🛡️ Admin'
+                    : user.role === 'owner' ? '🔑 Dashboard'
+                    : '👤 ' + user.name.split(' ')[0]}
+                  </Link>
+                  <button onClick={handleLogout} style={{
+                    fontSize: '.75rem', fontWeight: 500, padding: '9px 16px',
+                    borderRadius: 7, border: '1px solid rgba(255,255,255,.1)',
+                    color: 'var(--white-60)', transition: 'all .2s',
+                  }}>Logout</button>
+                </>
+              ) : (
+                <Link to="/login" className="btn-primary" style={{ padding:'9px 24px', fontSize:'.78rem' }}>
+                  Login / Register
                 </Link>
-                <button onClick={handleLogout} style={{
-                  fontSize: '.75rem', fontWeight: 500, padding: '9px 16px',
-                  borderRadius: 7, border: '1px solid rgba(255,255,255,.1)',
-                  color: 'var(--white-60)', transition: 'all .2s',
-                }}>Logout</button>
-              </>
-            ) : (
-              <Link to="/login" className="btn-primary" style={{ padding:'9px 24px', fontSize:'.78rem' }}>
-                Login / Register
-              </Link>
-            )}
+              )}
+            </div>
 
-            {/* Hamburger */}
+            {/* Hamburger - always rendered, visibility controlled by CSS, sized as a real tap target */}
             <button
-              onClick={() => setOpen(!open)}
+              onClick={() => setOpen(o => !o)}
               className="ham-btn"
-              style={{ display:'none', flexDirection:'column', gap:5, padding:6 }}
-              aria-label="Menu"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              style={{
+                display: 'none',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 5,
+                width: 44,
+                height: 44,
+                borderRadius: 9,
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                flexShrink: 0,
+              }}
             >
               {[0,1,2].map(i => (
                 <span key={i} style={{
-                  display:'block', width:22, height:1.5,
+                  display:'block', width:20, height:2,
                   background: 'var(--white)', borderRadius:2,
                   transition: 'all .3s',
-                  transform: open ? (i===0?'translateY(6.5px) rotate(45deg)':i===2?'translateY(-6.5px) rotate(-45deg)':'none') : 'none',
+                  transform: open ? (i===0?'translateY(7px) rotate(45deg)':i===2?'translateY(-7px) rotate(-45deg)':'none') : 'none',
                   opacity: open && i===1 ? 0 : 1,
                 }}/>
               ))}
@@ -157,7 +179,7 @@ export default function Navbar() {
           position:'fixed', inset:0, zIndex:199,
           background:'rgba(8,8,8,.97)', backdropFilter:'blur(20px)',
           display:'flex', flexDirection:'column', alignItems:'center',
-          justifyContent:'center', gap:6,
+          justifyContent:'center', gap:6, overflowY:'auto', padding:'90px 20px 40px',
         }}>
           {NAV_LINKS.map(l => (
             <Link key={l.to} to={l.to} style={{
@@ -183,7 +205,11 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media(max-width:900px) { .nav-desktop { display:none !important; } .ham-btn { display:flex !important; } }
+        @media (max-width: 900px) {
+          .nav-desktop { display: none !important; }
+          .nav-desktop-auth { display: none !important; }
+          .ham-btn { display: flex !important; }
+        }
       `}</style>
     </>
   )

@@ -15,9 +15,7 @@ export default function PropertyDetails() {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        // Get ID from slug
         const propertyId = slug.split("-").pop();
-
         const res = await api.get(`/properties/${propertyId}`);
         setProperty(res.data.property || res.data);
       } catch (err) {
@@ -33,7 +31,7 @@ export default function PropertyDetails() {
 
   if (loading) {
     return (
-      <div style={{ padding: "120px", textAlign: "center" }}>
+      <div style={{ padding: "clamp(60px, 18vw, 120px) 20px", textAlign: "center" }}>
         Loading...
       </div>
     );
@@ -41,7 +39,7 @@ export default function PropertyDetails() {
 
   if (!property) {
     return (
-      <div style={{ padding: "120px", textAlign: "center" }}>
+      <div style={{ padding: "clamp(60px, 18vw, 120px) 20px", textAlign: "center" }}>
         <h2>Property not found</h2>
         <button
           onClick={() => navigate("/buy")}
@@ -85,7 +83,8 @@ export default function PropertyDetails() {
 
       <section
         style={{
-          paddingTop: "120px",
+          paddingTop: "clamp(80px, 20vw, 120px)",
+          paddingBottom: "clamp(40px, 8vw, 60px)",
           minHeight: "100vh",
           background: "#0a0a0a",
           color: "#fff",
@@ -93,7 +92,7 @@ export default function PropertyDetails() {
       >
         <div
           className="container"
-          style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}
+          style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}
         >
           <button
             onClick={() => navigate(-1)}
@@ -112,7 +111,7 @@ export default function PropertyDetails() {
             alt={`${property.title} in ${property.city}`}
             style={{
               width: "100%",
-              maxHeight: 500,
+              maxHeight: "clamp(220px, 60vw, 500px)",
               objectFit: "cover",
               borderRadius: 12,
             }}
@@ -122,8 +121,10 @@ export default function PropertyDetails() {
           <div style={{ marginTop: 30 }}>
             <h1
               style={{
-                fontSize: "2.5rem",
+                fontSize: "clamp(1.6rem, 6vw, 2.5rem)",
+                lineHeight: 1.2,
                 marginBottom: 10,
+                wordBreak: "break-word",
               }}
             >
               {property.title}
@@ -133,6 +134,7 @@ export default function PropertyDetails() {
               style={{
                 color: "#bbb",
                 marginBottom: 20,
+                fontSize: "clamp(.85rem, 2.5vw, 1rem)",
               }}
             >
               📍 {property.locality
@@ -145,6 +147,7 @@ export default function PropertyDetails() {
               style={{
                 color: "#d4af37",
                 marginBottom: 20,
+                fontSize: "clamp(1.3rem, 4.5vw, 1.8rem)",
               }}
             >
               ₹{Number(property.price).toLocaleString("en-IN")}
@@ -159,6 +162,7 @@ export default function PropertyDetails() {
                 gap: 20,
                 flexWrap: "wrap",
                 marginBottom: 30,
+                fontSize: "clamp(.85rem, 2.2vw, 1rem)",
               }}
             >
               {property.bedrooms && (
@@ -185,6 +189,7 @@ export default function PropertyDetails() {
                   style={{
                     lineHeight: 1.8,
                     color: "#ccc",
+                    fontSize: "clamp(.88rem, 2.3vw, 1rem)",
                   }}
                 >
                   {property.description}

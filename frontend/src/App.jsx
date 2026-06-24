@@ -15,6 +15,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import PrivacyPolicy  from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 import CookiePolicy   from './pages/CookiePolicy'
+import PropertyDetails from './pages/PropertyDetails'
 
 function Protected({ children, roles }) {
   const { user } = useAuth()
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/buy"             element={<Buy />} />
         <Route path="/rent"            element={<Rent />} />
         <Route path="/sell"            element={<Sell />} />
+         <Route path="/property/:slug"  element={<PropertyDetails />} />
         <Route path="/about"           element={<About />} />
         <Route path="/contact"         element={<Contact />} />
         <Route path="/login"           element={<Login />} />

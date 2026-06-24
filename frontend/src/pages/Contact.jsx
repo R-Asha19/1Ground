@@ -42,7 +42,6 @@ export default function Contact() {
       title: 'Phone',
       lines: [
         { display: '+91 7094640322', href: 'tel:+917094640322' },
-        
       ],
     },
     {
@@ -50,7 +49,6 @@ export default function Contact() {
       title: 'Email',
       lines: [
         { display: 'enquiry1ground@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=enquiry1ground@gmail.com', external: true },
-       
       ],
     },
     {
@@ -65,7 +63,7 @@ export default function Contact() {
       <Navbar />
 
       {/* Hero */}
-      <section style={{
+      <section className="contact-hero" style={{
         height: 340, position: 'relative', display: 'flex', alignItems: 'center',
         backgroundImage: 'url(https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1600&q=80)',
         backgroundSize: 'cover', backgroundPosition: 'center',
@@ -84,7 +82,7 @@ export default function Contact() {
 
       <section className="section" style={{ background:'var(--black)' }}>
         <div className="container">
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:56, alignItems:'start' }}>
+          <div className="contact-grid">
 
             {/* ── Contact Info ── */}
             <div>
@@ -97,15 +95,15 @@ export default function Contact() {
 
               <div style={{ display:'flex', flexDirection:'column', gap:22 }}>
                 {contactDetails.map((c, i) => (
-                  <div key={i} style={{ display:'flex', gap:16, alignItems:'flex-start' }}>
+                  <div key={i} className="contact-row" style={{ display:'flex', gap:16, alignItems:'flex-start' }}>
                     {/* Icon box */}
-                    <div style={{
+                    <div className="contact-icon" style={{
                       width:46, height:46, borderRadius:11, flexShrink:0,
                       background:'var(--gold-pale)', border:'1px solid var(--gold-dim)',
                       display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.2rem',
                     }}>{c.icon}</div>
 
-                    <div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
                       <p style={{ fontSize:'.68rem', fontWeight:700, letterSpacing:'.14em', textTransform:'uppercase', color:'var(--gold)', marginBottom:5 }}>{c.title}</p>
 
                       {/* Lines with clickable links */}
@@ -117,6 +115,7 @@ export default function Contact() {
                           style={{
                             display:'block', fontSize:'.86rem', color:'var(--white-60)',
                             lineHeight:1.7, transition:'color .2s', textDecoration:'none',
+                            wordBreak:'break-word',
                           }}
                           onMouseEnter={e => e.target.style.color='var(--gold-lt)'}
                           onMouseLeave={e => e.target.style.color='var(--white-60)'}
@@ -148,10 +147,10 @@ export default function Contact() {
               </div>
 
               {/* Quick WhatsApp support button */}
-              
-                <a href="https://wa.me/917094640322?text=Hi%201Ground%2C%20I%20need%20help%20with%20a%20property%20enquiry."
+              <a href="https://wa.me/917094640322?text=Hi%201Ground%2C%20I%20need%20help%20with%20a%20property%20enquiry."
                 target="_blank"
                 rel="noopener noreferrer"
+                className="whatsapp-btn"
                 style={{
                   display:'inline-flex', alignItems:'center', gap:10,
                   marginTop:32, padding:'13px 24px',
@@ -171,7 +170,7 @@ export default function Contact() {
             </div>
 
             {/* ── Contact Form ── */}
-            <div style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:18, padding:'36px 32px' }}>
+            <div className="contact-form-card" style={{ background:'var(--black-card)', border:'1px solid var(--border)', borderRadius:18, padding:'36px 32px' }}>
               <h3 style={{ fontFamily:'var(--ff-d)', fontSize:'1.4rem', color:'var(--white)', marginBottom:24 }}>
                 Send Us a <em style={{ fontStyle:'italic', color:'var(--gold-lt)' }}>Message</em>
               </h3>
@@ -190,7 +189,7 @@ export default function Contact() {
               )}
 
               <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:16 }}>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+                <div className="form-row-2">
                   <div>
                     <label className="f-label">Your Name *</label>
                     <input className="f-input" required placeholder="Full name"
@@ -203,7 +202,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+                <div className="form-row-2">
                   <div>
                     <label className="f-label">Phone</label>
                     <input className="f-input" type="tel" placeholder="+91 XXXXXXXXXX"
@@ -249,8 +248,63 @@ export default function Contact() {
       <Footer />
 
       <style>{`
-        @media(max-width:900px) {
-          div[style*="grid-template-columns:1fr 1.4fr"] { grid-template-columns:1fr !important; }
+        .contact-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.4fr;
+          gap: 56px;
+          align-items: start;
+        }
+
+        @media (max-width: 900px) {
+          .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .contact-hero {
+            height: 280px !important;
+          }
+
+          .contact-grid {
+            gap: 32px;
+          }
+
+          .contact-row {
+            gap: 12px !important;
+          }
+
+          .contact-icon {
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 1.05rem !important;
+          }
+
+          .contact-form-card {
+            padding: 24px 18px !important;
+            border-radius: 14px !important;
+          }
+
+          .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+          }
+
+          .whatsapp-btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 24px !important;
+          }
+        }
+
+        @media (min-width: 601px) {
+          .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+          }
         }
       `}</style>
     </div>
