@@ -205,7 +205,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 0', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: '.75rem', color: 'var(--white-30)' }}>
-            © 2026 1Ground. All rights reserved. Crafted with ♥ in India.
+            © 2026 1Ground. Chez IT Solutions Pvt Ltd. All rights reserved. Crafted with ♥ in India.
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {[
